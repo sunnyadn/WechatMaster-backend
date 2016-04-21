@@ -54,4 +54,5 @@ def make_app():
 if __name__ == "__main__":
     app = make_app()
     app.listen(80)
+    print "Server starts and is listening on port 80"
     tornado.ioloop.IOLoop.current().start()
