@@ -11,6 +11,10 @@ import wechat
 client = weclient.Client()
 wc = wechat.WeChat()
 
+class StatusHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("{'status': 'running'}");
+
 class LoginHandler(tornado.web.RequestHandler):
     # def get(self):
     #     self.write("Hello, world")
@@ -47,6 +51,7 @@ class WeChatHandler(tornado.web.RequestHandler):
 
 def make_app():
     return tornado.web.Application([
+        (r"/status", StatusHandler),
         (r"/login", LoginHandler),
         (r"/wechat", WeChatHandler),
     ])
