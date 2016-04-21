@@ -6,8 +6,10 @@ import tornado.web
 from hashlib import sha1
 
 import weclient
+import wechat
 
 client = weclient.Client()
+wc = wechat.WeChat()
 
 class LoginHandler(tornado.web.RequestHandler):
     # def get(self):
@@ -24,7 +26,7 @@ class LoginHandler(tornado.web.RequestHandler):
         app_id = self.get_argument("app_id")
         app_secret = self.get_argument("secret")
 
-        wechat.setAppInfo(app_id, app_secret)
+        wc.setAppInfo(app_id, app_secret)
 
 class WeChatHandler(tornado.web.RequestHandler):
     def get(self):
@@ -41,6 +43,7 @@ class WeChatHandler(tornado.web.RequestHandler):
         source = self.get_argument("FromUserName")
         if msg_type == "text":
             content = self.get_argument("Content")
+            print content
 
 def make_app():
     return tornado.web.Application([
@@ -49,8 +52,6 @@ def make_app():
     ])
 
 if __name__ == "__main__":
-    # app = make_app()
-    # app.listen(8888)
-    # tornado.ioloop.IOLoop.current().start()
-    client.login("nuistsunny", "SunnyYoung1130")
-    client.sendMsg("ogCtWv9jhHIhvgF27NVIxSjgqjn4", "LoggedIn")
+    app = make_app()
+    app.listen(80)
+    tornado.ioloop.IOLoop.current().start()
