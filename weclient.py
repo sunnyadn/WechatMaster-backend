@@ -32,7 +32,7 @@ class Client(object):
         # req = tornado.httpclient.HTTPRequest("https://mp.weixin.qq.com/cgi-bin/login", "POST", headers, body)
 
         # self.httpclient.fetch(req, self.saveToken)
-        res = self.httpclient.post("https://mp.weixin.qq.com/cgi-bin/login", headers = headers, data = body)
+        res = self.httpclient.post("https://mp.weixin.qq.com/cgi-bin/login", headers = headers, data = body, verify = False)
         body = eval(res.text)
         print body
         url = body["redirect_url"]
@@ -83,7 +83,7 @@ class Client(object):
 
         print body
 
-        res=self.httpclient.post(url,data=body,headers=headers)
+        res=self.httpclient.post(url, data = body, headers = headers, verify = False)
         print res.text
 
     def onMessageSent(self, res):
