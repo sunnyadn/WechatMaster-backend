@@ -44,6 +44,7 @@ class WeChatHandler(tornado.web.RequestHandler):
             self.write(echostr)
 
     def post(self):
+        self.write("success");
         msg_type = self.get_argument("MsgType")
         source = self.get_argument("FromUserName")
         if msg_type == "text":
