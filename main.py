@@ -46,8 +46,9 @@ class WeChatHandler(tornado.web.RequestHandler):
             self.write(echostr)
 
     def post(self):
-        self.write("success");
+        self.write("success")
 
+        print uri
         print self.request.body
         data = xmltodict.parse(self.request.body)["xml"]
         print data
