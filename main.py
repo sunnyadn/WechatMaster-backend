@@ -5,6 +5,8 @@ import tornado.web
 
 from hashlib import sha1
 
+import xmltodict
+
 import weclient
 import wechat
 
@@ -45,10 +47,14 @@ class WeChatHandler(tornado.web.RequestHandler):
 
     def post(self):
         self.write("success");
-        msg_type = self.get_argument("MsgType")
-        source = self.get_argument("FromUserName")
+
+        print self.request.body
+        data = xmltodict.parse(self.request.body)["xml"]
+        print data
+        msg_type = data["MsgType"]
+        source = data["FromUserName"]
         if msg_type == "text":
-            content = self.get_argument("Content")
+            content = data["Content"]
             print content
 
 def make_app():
