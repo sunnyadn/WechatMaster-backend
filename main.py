@@ -29,8 +29,9 @@ class LoginHandler(tornado.web.RequestHandler):
 
         app_id = self.get_argument("app_id")
         app_secret = self.get_argument("secret")
+        token = self.get_argument("token")
 
-        wc.setAppInfo(app_id, app_secret)
+        wc.setAppInfo(app_id, app_secret, token)
 
 class WeChatHandler(tornado.web.RequestHandler):
     def get(self):
@@ -39,7 +40,7 @@ class WeChatHandler(tornado.web.RequestHandler):
         nonce = self.get_argument("nonce")
         echostr = self.get_argument("echostr")
 
-        if wc.checkSignature(signature, timestamp, nonce, echostr):
+        if wc.checkSignature(signature, timestamp, nonce):
             self.write(echostr)
 
     def post(self):

@@ -11,17 +11,18 @@ class WeChat(object):
         self.tokenResidue = 0
         self.updateAccessToken()
 
-    def checkSignature(self, sn, timestamp, nonce, echostr):
-        array = list(timestamp, nonce, echostr)
+    def checkSignature(self, sn, timestamp, nonce):
+        array = list(timestamp, nonce, self.token)
         array.sort()
         combined = "".join(array)
         sh = sha1(combined)
         result = sh.digest()
         return sh == signature
 
-    def setAppInfo(self, id, secret):
+    def setAppInfo(self, id, secret, token):
         self.id = id
         self.secret = secret
+        self.token = token
 
     def updateAccessToken(self):
         if self.accessToken == "" or self.tokenTime + self.tokenResidue < time.time() - 5000:
