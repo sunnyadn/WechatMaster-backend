@@ -2,6 +2,7 @@ import tornado.httpclient
 
 import time
 from urllib import urlencode
+from hashlib import sha1
 
 class WeChat(object):
     def __init__(self):
@@ -12,12 +13,16 @@ class WeChat(object):
         self.updateAccessToken()
 
     def checkSignature(self, sn, timestamp, nonce):
-        array = list(timestamp, nonce, self.token)
+        array = [timestamp, nonce, self.token]
         array.sort()
         combined = "".join(array)
-        sh = sha1(combined)
-        result = sh.digest()
-        return sh == signature
+        signature = sha1(combined).hexdigest()
+        if sn == signature:
+            print "Success!"
+            return True
+        else:
+            print "Failure!", "Signature from wechat is:", sn, "The calculated one is:", signature
+            return False
 
     def setAppInfo(self, id, secret, token):
         self.id = id
