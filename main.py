@@ -9,9 +9,11 @@ import xmltodict
 
 import weclient
 import wechat
+import easemob
 
 client = weclient.Client()
 wc = wechat.WeChat()
+em = easemob.EaseMob()
 
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
@@ -27,13 +29,17 @@ class LoginHandler(tornado.web.RequestHandler):
         pwd = self.get_argument("pwd")
         imgcode = self.get_argument("imgcode")
 
-        client.login(name, pwd, imgcode)
+        client.login(name, pwd, imgcode, self._onLoggedIn)
 
         app_id = self.get_argument("app_id")
         app_secret = self.get_argument("secret")
         token = self.get_argument("token")
 
         wc.setAppInfo(app_id, app_secret, token)
+
+    def _onLoggedIn(self, name):
+        print "callback called!"
+        em.register_new_user(name, "sunnyhahaha")
 
 class WeChatHandler(tornado.web.RequestHandler):
     def get(self):

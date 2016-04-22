@@ -11,7 +11,7 @@ class Client(object):
     def __init__(self):
         self.httpclient = requests.session()
 
-    def login(self, name, pwd, imgcode = ""):
+    def login(self, name, pwd, imgcode = "", callback = None):
         headers = {
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate",
@@ -35,9 +35,13 @@ class Client(object):
         res = self.httpclient.post("https://mp.weixin.qq.com/cgi-bin/login", headers = headers, data = body, verify = False)
         body = eval(res.text)
         print body
-        url = body["redirect_url"]
-        self.token = re.findall(r".+?=(\d+)$", url)[0]
-        print self.token
+        if body["base_resp"] and body["base_resp"]["ret"] == 0:
+            url = body["redirect_url"]
+            self.token = re.findall(r".+?=(\d+)$", url)[0]
+            print self.token
+            callback(name);
+        elif body["base_resp"]:
+            print body["base_resp"]["err_msg"]
 
     def saveToken(self, res):
         body = eval(res.body)
