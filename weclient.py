@@ -39,6 +39,7 @@ class Client(object):
             url = body["redirect_url"]
             self.token = re.findall(r".+?=(\d+)$", url)[0]
             print self.token
+            self.name = name
             callback(name);
         elif body["base_resp"]:
             print body["base_resp"]["err_msg"]

@@ -4,6 +4,7 @@ import tornado.ioloop
 import tornado.web
 
 from hashlib import sha1
+import json
 
 import xmltodict
 
@@ -35,11 +36,16 @@ class LoginHandler(tornado.web.RequestHandler):
         app_secret = self.get_argument("secret")
         token = self.get_argument("token")
 
+        echo = json.dumps({ "password": em.user_pwd })
+        print echo
+        self.write(echo)
+
         wc.setAppInfo(app_id, app_secret, token)
 
     def _onLoggedIn(self, name):
         print "callback called!"
-        em.register_new_user(name, "sunnyhahaha")
+        if not em.user_exists(name):
+            em.register_new_user(name)
 
 class WeChatHandler(tornado.web.RequestHandler):
     def get(self):
@@ -63,6 +69,10 @@ class WeChatHandler(tornado.web.RequestHandler):
         if msg_type == "text":
             content = data["Content"]
             print content
+            if not em.user_exists(source):
+                em.register_new_user(source)
+
+            em.send_text(client.name, content, source)
 
 def make_app():
     return tornado.web.Application([

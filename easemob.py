@@ -91,18 +91,35 @@ class EaseMob:
         self.org, self.app = parse_appkey(appkey)
         self.client_id = config['client_id']
         self.client_secret = config['client_secret']
+        self.user_pwd = config['user_pwd']
 
         self.auth = AppClientAuth(self.org, self.app, self.client_id, self.client_secret)
         print "Get app token with client id/secret: " + self.auth.get_token()
 
-    def register_new_user(self, username, password):
-        payload = {"username":username, "password":password}
+    def user_exists(self, username):
+        url = EASEMOB_HOST+("/%s/%s/users/%s" % (self.org, self.app, username))
+        return get(url, self.auth)
+
+    def register_new_user(self, username):
+        payload = {"username":username, "password":self.user_pwd}
         url = EASEMOB_HOST+("/%s/%s/users" % (self.org, self.app))
         return post(url, payload, self.auth)
 
     def delete_user(self, username):
         url = EASEMOB_HOST+("/%s/%s/users/%s" % (self.org, self.app, username))
         return delete(url, self.auth)
+
+    def send_text(self, username, text, source):
+        payload = { "target_type": "users",
+                    "target": [username],
+                    "msg": {
+                        "type": "txt",
+                        "msg": text,
+                    },
+                    "from": source
+                }
+        url = EASEMOB_HOST+("/%s/%s/messages" % (self.org, self.app))
+        return post(url, payload, self.auth)
 
     def send_file(self, file_path):
         url = EASEMOB_HOST+("/%s/%s/chatfiles" % (self.org, self.app))
