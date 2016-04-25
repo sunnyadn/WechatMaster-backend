@@ -70,7 +70,9 @@ class WeChatHandler(tornado.web.RequestHandler):
             content = data["Content"]
             print content.encode("utf-8")
             if not em.user_exists(source):
-                em.register_new_user(source)
+                info = wc.getUserInfo(source)
+                nick = info["nickname"]
+                em.register_new_user(source, nick)
 
             em.send_text(client.name, content, source)
 
