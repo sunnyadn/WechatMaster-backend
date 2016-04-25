@@ -87,7 +87,7 @@ class WeChat:
             "openid": open_id,
             "lang": "zh_CN"
         }
-        url = WECHAT_HOST+"/info?" + urlencode(query)
+        url = WECHAT_HOST+"/user/info?" + urlencode(query)
         print "getUserInfo:", url
         success, result = get(url)
         print result
