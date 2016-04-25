@@ -78,11 +78,19 @@ class WeChatHandler(tornado.web.RequestHandler):
 
             em.send_text(client.name, content, source)
 
+class SendMsgHandler(tornado.web.RequestHandler):
+    def post(self):
+        target = self.get_argument("target")
+        message = self.get_argument("message")
+
+        client.sendMsg(target, message)
+
 def make_app():
     return tornado.web.Application([
         (r"/status", StatusHandler),
         (r"/login", LoginHandler),
         (r"/wechat", WeChatHandler),
+        (r"/send_msg", SendMsgHandler),
     ])
 
 if __name__ == "__main__":
