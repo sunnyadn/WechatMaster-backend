@@ -58,7 +58,7 @@ class WeChatAuth(AuthBase):
     def acquire_token(self):
         pass
 
-class AppClientAuth(EasemobAuth):
+class AppClientAuth(WeChatAuth):
     def __init__(self, app_id, app_secret):
         query = {
             "grant_type": "client_credential",
