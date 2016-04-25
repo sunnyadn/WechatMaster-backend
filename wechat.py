@@ -76,8 +76,9 @@ class AppClientAuth(WeChatAuth):
             pass
 
 class WeChat:
-    def setAppInfo(self, app_id, app_secret):
+    def setAppInfo(self, app_id, app_secret, token):
         self.auth = AppClientAuth(app_id, app_secret)
+        self.token = token
 
     def getUserInfo(self, open_id):
         query = {
@@ -88,3 +89,15 @@ class WeChat:
         url = WECHAT_HOST+"/info?"+urlencode(query)
         success, result = get(url)
         return result
+
+    def checkSignature(self, sn, timestamp, nonce):
+        array = [timestamp, nonce, self.token]
+        array.sort()
+        combined = "".join(array)
+        signature = sha1(combined).hexdigest()
+        if sn == signature:
+            print "Success!"
+            return True
+        else:
+            print "Failure!", "Signature from wechat is:", sn, "The calculated one is:", signature
+            return False
