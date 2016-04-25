@@ -73,7 +73,8 @@ class WeChatHandler(tornado.web.RequestHandler):
         if msg_type == "text":
             content = data["Content"]
             print content.encode("utf-8")
-            from_id = client.name + index++;
+            from_id = client.name + index;
+            index = index + 1;
             info = client.getUserInfo(source)
             nick = info["user_name"]
             if not em.user_exists(from_id):
