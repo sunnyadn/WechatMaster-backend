@@ -81,8 +81,9 @@ class WeChatHandler(tornado.web.RequestHandler):
 
 class SendMsgHandler(tornado.web.RequestHandler):
     def post(self):
-        target = self.get_argument("target")
-        message = self.get_argument("message")
+        body = eval(self.request.body)
+        target = body["target"]
+        message = body["message"]
 
         client.sendMsg(target, message)
 
