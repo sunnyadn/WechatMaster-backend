@@ -51,8 +51,7 @@ class LoginHandler(tornado.web.RequestHandler):
             em.register_new_user(name)
 
 class WeChatHandler(tornado.web.RequestHandler):
-    def __init__(self):
-        super(self).__init__()
+    def initialize(self):
         self.index = 0
 
     def get(self):
