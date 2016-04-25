@@ -17,7 +17,6 @@ wc = wechat.WeChat()
 em = easemob.EaseMob()
 
 users = {}
-index = 0
 
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
@@ -52,6 +51,10 @@ class LoginHandler(tornado.web.RequestHandler):
             em.register_new_user(name)
 
 class WeChatHandler(tornado.web.RequestHandler):
+    __init__(self):
+        super(self).__init__()
+        self.index = 0
+
     def get(self):
         signature = self.get_argument("signature")
         timestamp = self.get_argument("timestamp")
@@ -73,8 +76,8 @@ class WeChatHandler(tornado.web.RequestHandler):
         if msg_type == "text":
             content = data["Content"]
             print content.encode("utf-8")
-            from_id = client.name + index
-            index = index + 1
+            from_id = client.name + self.index
+            self.index = self.index + 1
             info = client.getUserInfo(source)
             nick = info["user_name"]
             if not em.user_exists(from_id):
