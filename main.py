@@ -26,6 +26,7 @@ class LoginHandler(tornado.web.RequestHandler):
     #     client.sendMsg("ogCtWv9jhHIhvgF27NVIxSjgqjn4", "LoggedIn")
 
     def post(self):
+        print self.request.body
         name = self.get_argument("name")
         pwd = self.get_argument("pwd")
         imgcode = self.get_argument("imgcode")
