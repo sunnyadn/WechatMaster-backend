@@ -66,6 +66,7 @@ class AppClientAuth(WeChatAuth):
             "secret": app_secret
         }
         self.url = WECHAT_HOST + "/token?" + urlencode(query)
+        print "Wechat Token:", self.url
         self.token = None
 
     def acquire_token(self):
@@ -86,7 +87,8 @@ class WeChat:
             "openid": open_id,
             "lang": "zh_CN"
         }
-        url = WECHAT_HOST+"/info?"+urlencode(query)
+        url = WECHAT_HOST+"/info?" + urlencode(query)
+        print "getUserInfo:", url
         success, result = get(url)
         print result
         return result
