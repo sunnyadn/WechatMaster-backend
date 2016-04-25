@@ -11,15 +11,15 @@ WECHAT_HOST = "https://api.weixin.qq.com/cgi-bin"
 DEBUG = True
 
 def post(url, payload, auth = None):
-    r = requests.post(url, data = json.dumps(payload), headers = JSON_HEADER, auth = auth, verify = False)
+    r = requests.post(url, data = json.dumps(payload), auth = auth, verify = False)
     return http_result(r)
 
 def get(url, auth = None):
-    r = requests.get(url, headers = JSON_HEADER, auth = auth, verify = False)
+    r = requests.get(url, auth = auth, verify = False)
     return http_result(r)
 
 def delete(url, auth = None):
-    r = requests.delete(url, headers = JSON_HEADER, auth = auth, verify = False)
+    r = requests.delete(url, auth = auth, verify = False)
     return http_result(r)
 
 def http_result(r):
