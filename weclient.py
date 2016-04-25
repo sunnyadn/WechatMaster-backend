@@ -150,4 +150,4 @@ class Client(object):
         res=self.httpclient.post(url, data = body, headers = headers, verify = False)
         print res.text.encode("utf-8")
         body = eval(res.text)
-        return body["user_list"]["user_info_list"]
+        return body["user_list"]["user_info_list"][0]
