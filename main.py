@@ -74,7 +74,7 @@ class WeChatHandler(tornado.web.RequestHandler):
             if not em.user_exists(source):
                 em.register_new_user(source, nick)
             else:
-                em.set_user_nickname(source, nickname)
+                em.set_user_nickname(source, nick)
 
             em.send_text(client.name, content, source)
 
