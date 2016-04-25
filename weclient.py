@@ -77,7 +77,7 @@ class Client(object):
             "lang": "zh_CN",
             "f": "json",
             "ajax": "1",
-            "random": "0.4150608658290731",
+            "random": random.random(),
             "mask": "false",
             "tofakeid": target,
             "imgcode": "",
