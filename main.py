@@ -26,16 +26,16 @@ class LoginHandler(tornado.web.RequestHandler):
     #     client.sendMsg("ogCtWv9jhHIhvgF27NVIxSjgqjn4", "LoggedIn")
 
     def post(self):
-        print self.request.body
-        name = self.get_argument("name")
-        pwd = self.get_argument("pwd")
-        imgcode = self.get_argument("imgcode")
+        body = eval(self.request.body)
+        name = body["name"]
+        pwd = body["pwd"]
+        imgcode = body["imgcode"]
 
         client.login(name, pwd, imgcode, self._onLoggedIn)
 
-        app_id = self.get_argument("app_id")
-        app_secret = self.get_argument("secret")
-        token = self.get_argument("token")
+        app_id = body["app_id"]
+        app_secret = body["secret"]
+        token = body["token"]
 
         echo = json.dumps({ "password": em.user_pwd })
         print echo
