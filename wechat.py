@@ -88,6 +88,7 @@ class WeChat:
         }
         url = WECHAT_HOST+"/info?"+urlencode(query)
         success, result = get(url)
+        print result
         return result
 
     def checkSignature(self, sn, timestamp, nonce):

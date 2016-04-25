@@ -100,6 +100,11 @@ class EaseMob:
         url = EASEMOB_HOST+("/%s/%s/users/%s" % (self.org, self.app, username))
         return get(url, self.auth)
 
+    def set_user_nickname(self, username, nickname):
+        payload = {"nickname": nickname}
+        url = EASEMOB_HOST+("/%s/%s/users/%s" % (self.org, self.app, username))
+        return post(url, payload, self.auth)
+
     def register_new_user(self, username, nickname = None):
         payload = {"username":username, "password":self.user_pwd}
         if nickname:
