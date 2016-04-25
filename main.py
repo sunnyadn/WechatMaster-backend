@@ -51,9 +51,6 @@ class LoginHandler(tornado.web.RequestHandler):
             em.register_new_user(name)
 
 class WeChatHandler(tornado.web.RequestHandler):
-    def initialize(self):
-        self.index = 0
-
     def get(self):
         signature = self.get_argument("signature")
         timestamp = self.get_argument("timestamp")
@@ -75,8 +72,8 @@ class WeChatHandler(tornado.web.RequestHandler):
         if msg_type == "text":
             content = data["Content"]
             print content.encode("utf-8")
-            from_id = client.name + str(self.index)
-            self.index = self.index + 1
+            from_id = client.name + str(em.index)
+            em.index = em.index + 1
             info = client.getUserInfo(source)
             nick = info["user_name"]
             if not em.user_exists(from_id):

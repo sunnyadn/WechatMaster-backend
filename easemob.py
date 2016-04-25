@@ -93,6 +93,8 @@ class EaseMob:
         self.client_secret = config['client_secret']
         self.user_pwd = config['user_pwd']
 
+        self.index = 0;
+
         self.auth = AppClientAuth(self.org, self.app, self.client_id, self.client_secret)
         print "Get app token with client id/secret: " + self.auth.get_token()
 
