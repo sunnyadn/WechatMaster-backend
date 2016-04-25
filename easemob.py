@@ -98,7 +98,8 @@ class EaseMob:
 
     def user_exists(self, username):
         url = EASEMOB_HOST+("/%s/%s/users/%s" % (self.org, self.app, username))
-        return get(url, self.auth)
+        success, data = get(url, self.auth)
+        return success
 
     def set_user_nickname(self, username, nickname):
         payload = {"nickname": nickname}
