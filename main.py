@@ -16,7 +16,8 @@ client = weclient.Client()
 wc = wechat.WeChat()
 em = easemob.EaseMob()
 
-users = {}
+inner2open = {}
+open2inner = {}
 
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
@@ -73,12 +74,16 @@ class WeChatHandler(tornado.web.RequestHandler):
             content = data["Content"]
             print content.encode("utf-8")
             from_id = client.name + str(em.index)
-            em.index = em.index + 1
+            if source in open2inner:
+                from_id = open2inner[source]
+            else:
+                em.index = em.index + 1
             info = client.getUserInfo(source)
             nick = info["user_name"]
             if not em.user_exists(from_id):
                 em.register_new_user(from_id, nick)
-                users[from_id] = source
+                inner2open[from_id] = source
+                open2inner[source] = from_id
             else:
                 em.set_user_nickname(from_id, nick)
 
@@ -90,7 +95,7 @@ class SendMsgHandler(tornado.web.RequestHandler):
         target = body["target"]
         message = body["message"]
 
-        client.sendMsg(users[target], message)
+        client.sendMsg(inner2open[target], message)
 
 def make_app():
     return tornado.web.Application([
