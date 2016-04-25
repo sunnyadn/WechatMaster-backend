@@ -75,7 +75,7 @@ class WeChatHandler(tornado.web.RequestHandler):
         if msg_type == "text":
             content = data["Content"]
             print content.encode("utf-8")
-            from_id = client.name + self.index
+            from_id = client.name + str(self.index)
             self.index = self.index + 1
             info = client.getUserInfo(source)
             nick = info["user_name"]
