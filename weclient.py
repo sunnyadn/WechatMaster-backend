@@ -40,7 +40,8 @@ class Client(object):
             self.token = re.findall(r".+?=(\d+)$", url)[0]
             print self.token
             self.name = name
-            callback(name);
+            if callback:
+                callback(name);
         elif body["base_resp"]:
             print body["base_resp"]["err_msg"]
 
@@ -82,7 +83,7 @@ class Client(object):
             "tofakeid": target,
             "imgcode": "",
             "type": "1",
-            "content": msg,
+            "content": msg.encode("utf-8"),
             "appmsg": "",
         }
 
@@ -151,3 +152,10 @@ class Client(object):
         print res.text.encode("utf-8")
         body = eval(res.text)
         return body["user_list"]["user_info_list"][0]
+
+if __name__ == '__main__':
+    client = Client()
+    client.login("nuistsunny", "SunnyYoung1130")
+    while True:
+        msg = str(raw_input())
+        client.sendMsg("ogCtWv9jhHIhvgF27NVIxSjgqjn4", msg)
