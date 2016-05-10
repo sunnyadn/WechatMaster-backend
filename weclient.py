@@ -83,7 +83,7 @@ class Client(object):
             "tofakeid": target,
             "imgcode": "",
             "type": "1",
-            "content": msg.encode("utf-8"),
+            "content": msg,
             "appmsg": "",
         }
 
